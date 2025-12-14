@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Product details
+{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Product details</h1>
+
+    <article class="product-detail">
+        <div class="product-detail-info">
+            <h1>{{ product.name }}</h1>
+            <h2><strong>Author:</strong> {{ product.author }}</h2>
+            <p><strong>Category:</strong> {{ product.category.name }}</p>
+            <p><strong>Price:</strong> {{ product.price }}</p>
+            <p><strong>Created:</strong> {{ product.date }}</p>
+            <p><strong>Stock:</strong> {{ product.stock }}</p>
+            <p class="product-description">{{ product.description }}</p>
+        </div>
+
+        {% if product.image %}
+            <img class="product-detail-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% endif %}
+    </article>
+
+</section>
+{% endblock %}

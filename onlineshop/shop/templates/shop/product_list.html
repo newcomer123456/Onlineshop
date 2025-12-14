@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Products
+{% endblock  %}
+
+{% block  content %}
+    <section>
+    <h1>Products<h1/>
+
+    {% for product in products %}
+        <article class="product">
+            <div class="product-info">
+                <a href='{% url 'shop:product-details' product.id %}'><h2>{{ product.name }}</h2></a>
+                <p>Price: {{ product.price }}</p>
+                <p>Was created: {{ product.date }}</p>
+                <p>Stock: {{ product.stock }}</p>
+
+            </div>
+
+            {% if product.image %}
+                <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% endif %}
+        </article>
+    {% endfor %}
+</section>
+{% endblock  %}
