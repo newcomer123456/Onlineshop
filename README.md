@@ -20,7 +20,7 @@ The project is not commercial and was created only for learning purposes.
 ### 1. Clone the repository
 
 ```bash
-git clone <repository_url>
+git clone (https://github.com/newcomer123456/Onlineshop.git)
 ```
 
 ### 2. Create a virtual environment
