@@ -1,49 +1,65 @@
 # Online Shop (Django)
 
-This is a simple online shop website made with Django as a school project.
+This is a **simple online shop website** made with Django as a **school project**.
 The project is not commercial and was created only for learning purposes.
 
-What is this project about?
+---
+
+## What is this project about?
 
 * Users can register and log in
 * Users can add products
 * Each product belongs to the user who created it
 * Products have name, price, description, stock and image
 * There is a basic order system (models only)
-  
---- How to run the project:
+
+---
+
+## How to run the project
+
 ### 1. Clone the repository
 
+```bash
 git clone <repository_url>
-
+```
 
 ### 2. Create a virtual environment
 
+```bash
 python -m venv venv
-
+```
 
 ### 3. Activate the virtual environment
 
-Windows:
+**Windows:**
 
+```bash
 venv\Scripts\activate
+```
 
-Mac / Linux:
+**Mac / Linux:**
 
+```bash
 source venv/bin/activate
-
+```
 
 ### 4. Install dependencies
 
+```bash
 pip install -r requirements.txt
+```
 
 ### 5. Apply migrations
 
+```bash
 python manage.py migrate
+```
 
 ### 6. Run the server
 
+```bash
 python manage.py runserver
+```
 
 ### 7. Open in browser
 
