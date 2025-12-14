@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Your Products Manager
+{% endblock %}
+
+{% block content %}
+<section class="products-manager-section">
+    <h1 class="page-title">
+        {% if products %}
+            Your Products ({{ products|length }})
+        {% else %}
+            Your Products
+        {% endif %}
+    </h1>
+
+    <div class="product-list">
+        {% if products %}
+            {% for product in products %}
+                <article class="product product-list-card">
+                    
+                    <div class="product-info-wrapper">
+                        
+                        {% if product.image %}
+                            <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <div class="product-image-placeholder">No Image</div>
+                        {% endif %}
+
+                        <div class="product-info">
+                            <a href='{% url 'shop:product-details' product.id %}' class="product-title-link">
+                                <h2>{{ product.name }}</h2>
+                            </a>
+                            <p><strong>Price:</strong> {{ product.price }}</p>
+                            <p><strong>Created:</strong> {{ product.date|date:"Y-m-d" }}</p>
+                            <p><strong>Stock:</strong> <span class="stock-level">{{ product.stock }}</span></p>
+                        </div>
+                    </div>
+
+                    <div class="product-actions-list">
+                        
+                        <a href="{% url 'shop:update-product' product.id %}" class="edit-button action-btn">
+                            Edit
+                        </a>
+                        
+                        <form method='post' action="{% url 'shop:your-own-products' %}" class='form-delete'>
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id_to_delete" value="{{ product.id }}">
+                            <input type="hidden" name="action_type" value="delete">
+                            <button type="submit" class='delete_button action-btn'>Delete</button>
+                        </form>
+                    </div>
+                </article>
+            {% endfor %}
+        {% else %}
+            <div class="no-products-message">
+                <p>You haven't created any products yet.</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <a href="{% url 'shop:new-product' %}" title='Create a new product' class="add-new-button">
+        + Create New Product
+    </a>
+
+</section>
+{% endblock %}

@@ -12,7 +12,25 @@ def product_list(request):
 
 def product_details(request, id):
     product = get_object_or_404(Product, id=id)
+    if request.method == "POST":
+        action_type = request.POST.get('action_type')
+        if action_type == 'delete' and request.user == product.author:
+            product.delete()
+            return redirect("shop:products")
     return render(request, 'shop/product_details.html', {'product':product})
+
+@login_required(login_url="/shop/login")
+def update_product(request, id):
+    product = get_object_or_404(Product, id=id)
+    if request.method == "POST":
+        form = CreateProduct(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect("shop:product-details", id=product.id)
+    else:
+        form = CreateProduct(instance=product)
+    return render(request, 'shop/update_product.html', {"form":form, "product":product})
+
 
 def register_view(request):
     if request.method == "POST":
@@ -56,3 +74,7 @@ def product_creation(request):
         form = CreateProduct()
     return render(request, 'shop/creation_product.html', {"form":form})
     
+@login_required(login_url="/shop/login")
+def your_own_products_view(request):
+    products = Product.objects.filter(author=request.user)
+    return render(request, 'shop/your_own_products.html', {"products":products})

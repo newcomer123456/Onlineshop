@@ -6,28 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         {% block title %}
-        Django app
+        Django App
         {% endblock %} 
     </title>
     <script src="{% static 'js/main.js' %}" defer></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <nav>
-        <a href='/'> Home </a>
-        <a href='/about'> About </a>
-        <a href="{% url 'shop:products' %}"> Products </a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'shop:new-product' %}" title='Create a new product'> New Product </a>
-            <form class='logout' action='{% url 'shop:logout' %}' method='post'>
-                {% csrf_token %}
-                <button class='logout-button' title='user logout'> Logout </button>
-            </form>
-        {% else %}
-            <a href="{% url 'shop:register' %}"> Register </a>
-            <a href="{% url 'shop:login' %}"> Sign in </a>
-        {% endif %}
-    </nav>
+    <header class="site-header">
+        <nav class="main-nav">
+            <div class="nav-links-primary">
+                <a href='/' class="nav-link">Home</a>
+                <a href='/about' class="nav-link">About</a>
+                <a href="{% url 'shop:products' %}" class="nav-link">Products</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'shop:new-product' %}" title='Create a new product' class="nav-link nav-link-highlight">New Product</a>
+                {% endif %}
+            </div>
+
+            <div class="nav-links-auth">
+                {% if user.is_authenticated %}
+                    <span class="user-greeting">Welcome, {{ user.username }}</span>
+                    <form class='logout' action='{% url 'shop:logout' %}' method='post'>
+                        {% csrf_token %}
+                        <button type="submit" class='logout-button' title='user logout'>Logout</button>
+                    </form>
+                    <a href="{% url 'shop:your-own-products' %}" class="nav-link">Your own products</a>
+                {% else %}
+                    <a href="{% url 'shop:register' %}" class="nav-link">Register</a>
+                    <a href="{% url 'shop:login' %}" class="nav-link nav-link-login">Sign in</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    
     <main>
         {% block content %}
         {% endblock %} 

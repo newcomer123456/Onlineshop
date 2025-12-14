@@ -1,10 +1,46 @@
 {% extends 'layout.html' %}
+{% load static %}
 
 {% block title %}
-    Home
-{% endblock  %}
+    Welcome to the Shop
+{% endblock %}
 
-{% block  content %}
-    <h1>Home</h1>
-    <p>Check out my <a href="/about">About</a> page.</p>
-{% endblock  %}
+{% block content %}
+<section class="hero-section">
+    {% if user.is_authenticated %}
+        <h1 class="hero-title">Welcome back, {{ user.username }}!</h1>
+        <p class="hero-subtitle">Ready to check your listings or find something new?</p>
+        
+        <div class="hero-actions">
+            {# Кнопка перегляду власних продуктів #}
+            <a href="{% url 'shop:your-own-products' %}" class="cta-button btn-accent">
+                Manage My Products
+            </a>
+            
+            {# Кнопка створення нового продукту #}
+            <a href="{% url 'shop:new-product' %}" class="cta-button btn-primary">
+                Create New Listing
+            </a>
+        </div>
+    {% else %}
+        <h1 class="hero-title">Find Your Next Favorite Item.</h1>
+        <p class="hero-subtitle">Log in to manage your inventory or explore our curated selection.</p>
+        
+        <div class="hero-actions">
+            {# Кнопка перегляду всіх продуктів #}
+            <a href="{% url 'shop:products' %}" class="cta-button btn-primary">
+                View All Products
+            </a>
+            
+            {# Кнопка реєстрації #}
+            <a href="{% url 'shop:register' %}" class="cta-button btn-accent">
+                Join Us Today
+            </a>
+        </div>
+    {% endif %}
+
+    <p class="hero-link-text">
+        <a href="/about" class="standard-link">Learn more about us on the About page.</a>
+    </p>
+</section>
+{% endblock %}

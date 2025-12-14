@@ -1,28 +1,56 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    Product details
+    {{ product.name }} Details
 {% endblock %}
 
 {% block content %}
-<section>
-    <h1>Product details</h1>
+<section class="product-page-section">
+    <h1 class="page-title">Product Details</h1>
 
     <article class="product-detail">
-        <div class="product-detail-info">
-            <h1>{{ product.name }}</h1>
-            <h2><strong>Author:</strong> {{ product.author }}</h2>
-            <p><strong>Category:</strong> {{ product.category.name }}</p>
-            <p><strong>Price:</strong> {{ product.price }}</p>
-            <p><strong>Created:</strong> {{ product.date }}</p>
-            <p><strong>Stock:</strong> {{ product.stock }}</p>
-            <p class="product-description">{{ product.description }}</p>
+        <div class="product-detail-image-container">
+            {% if product.image %}
+                <img class="product-detail-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="product-detail-image-placeholder">No Image Available</div>
+            {% endif %}
         </div>
 
-        {% if product.image %}
-            <img class="product-detail-image" src="{{ product.image.url }}" alt="{{ product.name }}">
-        {% endif %}
+        <div class="product-detail-info">
+            <h2 class="product-name-heading">{{ product.name }}</h2>
+            
+            <div class="product-meta-grid">
+                <p class="meta-item"><strong>Author:</strong> <span>{{ product.author }}</span></p>
+                <p class="meta-item"><strong>Category:</strong> <span>{{ product.category.name }}</span></p>
+                <p class="meta-item"><strong>Created:</strong> <span>{{ product.date|date:"Y-m-d" }}</span></p>
+                <p class="meta-item"><strong>Stock:</strong> <span class="stock-level">{{ product.stock }}</span></p>
+                <p class="price-display"><strong>Price:</strong> <span>{{ product.price }}</span></p>
+            </div>
+            
+            <div class="product-description-container">
+                <h3>Description</h3>
+                <p class="product-description">{{ product.description }}</p>
+            </div>
+        </div>
     </article>
+    
+    {% if product.author == user %}
+        <div class="product-actions">
+            
+            <a href="{% url 'shop:update-product' product.id %}" class="edit-button">Edit product</a>
+            
+            <form method='post' action="{% url 'shop:product-details' product.id %}" class='form-delete'>
+                {% csrf_token %}
+                <input type="hidden" name="action_type" value="delete">
+                <button type="submit" class='delete_button'>Delete</button>
+            </form>
+        </div>
+    {% endif %}
+
+    <a href="{% url 'shop:products' %}" class="add-new-button">
+        Return to home
+    </a>
 
 </section>
 {% endblock %}
